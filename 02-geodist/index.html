@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Distance between 2 geo-points</title>
+	<style>
+		html, input {
+			font: 6vw sans-serif;
+		}
+		textarea {
+			width: 100%;
+			font: 4vw sans-serif;
+		}
+		output {
+			font-family: monospace;
+			white-space: pre-wrap;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<textarea name="coords" spellcheck="false" placeholder="lat, long">47.209389, 39.737844 (Ростов-Арена)
+45.663326, 40.332510 (р. Челбас)</textarea>
+	</form>
+	<output></output>
+	<script type="module">
+		import { geoDist } from './script.js';
+
+		const form = document.querySelector('form');
+		const output = document.querySelector('output');
+
+		function run() {
+			const points = (form.elements.coords.value
+				.split('\n')
+				.map(line => line.trim().split(/[\s,]+/, 2).map(Number))
+			);
+
+			console.log(points);
+
+			try {
+				const dist = geoDist(points);
+				output.textContent = dist;
+			} catch (e) {
+				output.textContent = e.message;
+			}
+
+		}
+
+		form.addEventListener('input', () => {
+			run()
+		});
+
+		form.addEventListener('submit', (e) => {
+			e.preventDefault();
+			run()
+		});
+
+		run();
+	</script>
+</body>
+</html>

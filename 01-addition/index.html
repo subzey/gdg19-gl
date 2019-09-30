@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Sum of 2 numbers</title>
+	<style>
+		html, input {
+			font: 6vw sans-serif;
+		}
+		output {
+			font-family: monospace;
+			white-space: pre-wrap;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<input type="number" name="a" value="2"> + <input type="number" name="b" value="2">
+	</form>
+	<output></output>
+	<script type="module">
+		import { addNumbers } from './script.js';
+
+		const form = document.querySelector('form');
+		const output = document.querySelector('output');
+
+		function run() {
+			const a = Number(form.elements.a.value);
+			const b = Number(form.elements.b.value);
+
+			try {
+				const sum = addNumbers(a, b);
+				output.textContent = sum;
+			} catch (e) {
+				output.textContent = e.message;
+			}
+
+		}
+
+		form.addEventListener('input', () => {
+			run()
+		});
+
+		form.addEventListener('submit', (e) => {
+			e.preventDefault();
+			run()
+		});
+
+		run();
+	</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Sum of distances</title>
+	<style>
+		html, input {
+			font: 6vw sans-serif;
+		}
+		textarea {
+			width: 100%;
+			font: 4vw sans-serif;
+		}
+		output {
+			font-family: monospace;
+			white-space: pre-wrap;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<textarea name="coords" spellcheck="false" placeholder="lat, long">47.209389, 39.737844 (Ростов-Арена)
+47.488335, 39.928778 (Аэропорт Платов)
+55.966746, 37.415308 (А. Шереметьево)
+51.466697, -0.4504100 (А. Хитроу)
+40.641174, -73.792418 (А. Кеннеди)
+43.631050, -79.396829 (А. Торонто)
+43.721357, -79.326931 (набережная Дона)</textarea>
+	</form>
+	<output></output>
+	<script type="module">
+		import { geoDist } from './script.js';
+
+		const form = document.querySelector('form');
+		const output = document.querySelector('output');
+
+		function run() {
+			const points = (form.elements.coords.value
+				.split('\n')
+				.map(line => line.trim().split(/[\s,]+/, 2).map(Number))
+			);
+
+			console.log(points);
+
+			try {
+				const dist = geoDist(points);
+				output.textContent = dist.join(',\n');
+			} catch (e) {
+				output.textContent = e.message;
+			}
+
+		}
+
+		form.addEventListener('input', () => {
+			run()
+		});
+
+		form.addEventListener('submit', (e) => {
+			e.preventDefault();
+			run()
+		});
+
+		run();
+	</script>
+</body>
+</html>
