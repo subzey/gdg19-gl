@@ -139,8 +139,12 @@ function createDistProgram(gl) {
 			float long_b = point_b[1] * RADIANS_IN_DEGREE;
 
 			dist = acos(
-				sin(lat_a) * sin(lat_b) +
-				cos(lat_a) * cos(lat_b) * cos(long_a - long_b)
+				clamp(
+					sin(lat_a) * sin(lat_b) +
+					cos(lat_a) * cos(lat_b) * cos(long_a - long_b),
+					-1.0,
+					1.0
+				)
 			) * EARTH_RADIUS_KM;
 		}
 	`);
@@ -171,7 +175,6 @@ function createReducerProgram(gl) {
 	// Vertex shader
 	const vertexShader = gl.createShader(gl.VERTEX_SHADER);
 	gl.shaderSource(vertexShader, `#version 300 es
-		precision highp float;
 		in float a;
 		in float b;
 		flat out float result;

@@ -20,6 +20,7 @@ export function addNumbers(a, b) {
 	// Vertex shader
 	const vertexShader = gl.createShader(gl.VERTEX_SHADER);
 	gl.shaderSource(vertexShader, `#version 300 es
+		precision highp float;
 		in float a;
 		in float b;
 		flat out float result;
